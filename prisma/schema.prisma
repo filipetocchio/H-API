@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LogActionEnum {
+  entry
+  exit
+}
+
+model Efetivo {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  nomeDeGuerra String
+  saram        String   @unique
+  placa        String   @unique
+  patente      String
+  email        String   @unique
+  password     String
+  telefone     String   @unique
+  ft           String
+  qrCodeBase64 String
+  created      DateTime @default(now())
+  updateAT     DateTime @updatedAt
+  // from other models
+  access   Access? @relation(fields: [accessId], references: [id])
+  accessId Int?
+  Log      Log[]
+}
+
+model Visitante {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  cpf          String   @unique
+  placa        String   @unique
+  email        String   @unique
+  telefone     String   @unique
+  ft           String
+  qrCodeBase64 String
+  ativo        Boolean  @default(false)
+  parentesco   Boolean  @default(false)
+  created      DateTime @default(now())
+  updateAT     DateTime @updatedAt
+
+  // from other models
+  Log Log[]
+}
+
+model Access {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  efetivo    Efetivo[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+}
+
+model Log {
+  id Int @id @default(autoincrement())
+
+  time   DateTime      @default(now())
+  action LogActionEnum
+
+  effetivoId Int?
+  Efetivo    Efetivo? @relation(fields: [effetivoId], references: [id])
+
+  visitanteId Int
+  Visitante   Visitante @relation(fields: [visitanteId], references: [id])
+}
