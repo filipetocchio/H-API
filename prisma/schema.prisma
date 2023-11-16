@@ -26,13 +26,13 @@ model Efetivo {
   password     String
   telefone     String   @unique
   ft           String
-  qrCodeBase64 String
+  qrCodeBase64 String   @default("")
   created      DateTime @default(now())
   updateAT     DateTime @updatedAt
   // from other models
-  access   Access? @relation(fields: [accessId], references: [id])
-  accessId Int?
-  Log      Log[]
+  access       Access?  @relation(fields: [accessId], references: [id])
+  accessId     Int?
+  Log          Log[]
 }
 
 model Visitante {
@@ -43,7 +43,7 @@ model Visitante {
   email        String   @unique
   telefone     String   @unique
   ft           String
-  qrCodeBase64 String
+  qrCodeBase64 String   @default("")
   ativo        Boolean  @default(false)
   parentesco   Boolean  @default(false)
   created      DateTime @default(now())
