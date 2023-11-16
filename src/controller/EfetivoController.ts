@@ -1,14 +1,41 @@
 import { Request, Response } from "express";
 import { prisma } from "../database/prisma";
-import { PassThrough } from 'stream';
-import QRCode from 'qrcode'
+import { hash } from "bcryptjs";
+
 
 export const createEfetivo = async (req: Request, res: Response) => {
-    const { nome, nomeDeGuerra, saram, placa, patente, email, password, telefone, ft, qrCodeBase64 } = req.body;
+    const { nome, nomeDeGuerra, saram, placa, patente, email, password, telefone, ft, qrCodeBase64, accessName } = req.body;
+
+    const isEfetivoUniqueEmail = await prisma.efetivo.findUnique({
+        where: {
+            email
+        }
+    })
+
+    const isAccesName = await prisma.access.findUnique({
+        where: {
+            name: accessName
+        }
+    })
+
+
+    if (isEfetivoUniqueEmail) {
+        return res.status(400).json({message: ""})
+    }
+
+    if (!isAccesName) {
+        return res.status(400).json({message: ""})
+    }
+
+    const hashPassword = await hash(password, 8)
 
     try {
         const efetivo = await prisma.efetivo.create({
-            data: { nome, nomeDeGuerra, saram, placa, patente, email, password, telefone, ft, qrCodeBase64 },
+            data: { nome, nomeDeGuerra, saram, placa, patente, email, password: hashPassword, telefone, ft, qrCodeBase64, access: {
+                connect: {
+                    name: accessName
+                }
+            } },
         });
 
         return res.json(efetivo);

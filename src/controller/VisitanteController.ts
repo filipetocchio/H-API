@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { prisma } from "../database/prisma";
-import { PassThrough } from 'stream';
-import QRCode from 'qrcode'
 
 export const createVisitante = async (req: Request, res: Response) => {
     const { nome, cpf, placa, email, telefone, ft, qrCodeBase64, ativo, parentesco } = req.body;
