@@ -40,8 +40,7 @@ export const createEfetivo = async (req: Request, res: Response) => {
 
         return res.json(efetivo);
     } catch (error) {
-        console.error('Erro ao gerar QRCode e converter para base64:', error);1
-        return res.status(500).json({ message: "Erro ao criar efetivo" });
+        return res.status(500).json({ message: 'Erro ao criar efetivo' });
     }
 };
 
@@ -54,7 +53,7 @@ export const getALLEfetivos = async (req: Request, res: Response) => {
 
 export const getEfetivoById = async(req: Request, res: Response) => {
   try {
-    const efetivoId = parseInt(req.params.id); // Supondo que o ID seja um número inteiro
+    const efetivoId = parseInt(req.params.id);
 
     const secretarioData = await prisma.efetivo.findUnique({
       where: {
@@ -79,7 +78,7 @@ export const patchEfetivo = async (req: Request, res: Response) => {
     try {
         const updatedEfetivo = await prisma.efetivo.update({
             where: {
-                id: parseInt(efetivoId, 10), // Parse the ID to an integer
+                id: parseInt(efetivoId, 10),
             },
             data: {
                 nome: req.body.nome,
@@ -94,15 +93,15 @@ export const patchEfetivo = async (req: Request, res: Response) => {
             },
         });
 
-        return res.json({ message: "Updated successfully", updatedEfetivo });
+        return res.json({ message: 'Updated successfully', updatedEfetivo });
     } catch (error) {
-        return res.status(500).json({ message: "An error occurred while updating efetivo" });
+        return res.status(500).json({ message: 'An error occurred while updating efetivo' });
     }
 
 }
 
 export const deleteEfetivoById = async (req: Request, res: Response) => {
-    const { efetivoId } = req.params; // Assuming you pass the ID as a route parameter
+    const { efetivoId } = req.params;
 
     try {
         const efetivo = await prisma.efetivo.delete({
@@ -112,11 +111,11 @@ export const deleteEfetivoById = async (req: Request, res: Response) => {
         });
 
         if (efetivo) {
-            return res.json({ message: "efetivo deleted" });
+            return res.json({ message: 'efetivo deleted' });
         } else {
-            return res.status(404).json({ message: "efetivo not found" });
+            return res.status(404).json({ message: 'efetivo not found' });
         }
     } catch (error) {
-        return res.status(500).json({ message: "An error occurred while deleting efetivo" });
+        return res.status(500).json({ message: 'An error occurred while deleting efetivo' });
     }
 }

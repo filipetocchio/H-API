@@ -26,7 +26,7 @@ export const createLog = async (req: Request, res: Response) => {
 
         return res.json(log);
     } catch (error) {
-        return res.status(500).json({ message: "An error occurred while creating Log" });
+        return res.status(500).json({ message: 'An error occurred while creating Log' });
     }
 }
 
@@ -36,13 +36,13 @@ export const getAllLogs = async (req: Request, res: Response) => {
 
         return res.json(logs);
     } catch (error) {
-        return res.status(500).json({ message: "An error occurred while retrieving Logs" });
+        return res.status(500).json({ message: 'An error occurred while retrieving Logs' });
     }
 }
 
 export const getlogById = async(req: Request, res: Response) => {
   try {
-    const logId = parseInt(req.params.id); // Supondo que o ID seja um número inteiro
+    const logId = parseInt(req.params.id);
 
     const secretarioData = await prisma.log.findUnique({
       where: {
@@ -61,7 +61,7 @@ export const getlogById = async(req: Request, res: Response) => {
 }
 
 export const deleteLogById = async (req: Request, res: Response) => {
-    const { logId } = req.params; // Assuming you pass the ID as a route parameter
+    const { logId } = req.params;
 
     try {
         const log = await prisma.log.delete({
@@ -70,8 +70,8 @@ export const deleteLogById = async (req: Request, res: Response) => {
             },
         });
 
-        return res.json({ message: "Log deleted" });
+        return res.json({ message: 'Log deleted' });
     } catch (error) {
-        return res.status(500).json({ message: "An error occurred while deleting Log" });
+        return res.status(500).json({ message: 'An error occurred while deleting Log' });
     }
 }

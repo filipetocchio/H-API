@@ -12,7 +12,7 @@ export const createVisitante = async (req: Request, res: Response) => {
         return res.json(visitante);
     } catch (error) {
         console.error('Erro ao gerar QRCode e converter para base64:', error);1
-        return res.status(500).json({ message: "Erro ao criar visitante" });
+        return res.status(500).json({ message: 'Erro ao criar visitante' });
     }
 };
 
@@ -24,7 +24,7 @@ export const getALLVisitante = async (req: Request, res: Response) => {
 
 export const getVisitanteById = async(req: Request, res: Response) => {
   try {
-    const visitanteId = parseInt(req.params.id); // Supondo que o ID seja um número inteiro
+    const visitanteId = parseInt(req.params.id);
 
     const secretarioData = await prisma.visitante.findUnique({
       where: {
@@ -49,7 +49,7 @@ export const patchVisitante = async (req: Request, res: Response) => {
     try {
         const updatedVisitante = await prisma.visitante.update({
             where: {
-                id: parseInt(visitanteId, 10), // Parse the ID to an integer
+                id: parseInt(visitanteId, 10),
             },
             data: {
                 nome: req.body.nome,
@@ -61,15 +61,15 @@ export const patchVisitante = async (req: Request, res: Response) => {
             },
         });
 
-        return res.json({ message: "Updated successfully", updatedVisitante });
+        return res.json({ message: 'Updated successfully', updatedVisitante });
     } catch (error) {
-        return res.status(500).json({ message: "An error occurred while updating Visitante" });
+        return res.status(500).json({ message: 'An error occurred while updating Visitante' });
     }
 
 }
 
 export const deleteVisitanteById = async (req: Request, res: Response) => {
-    const { visitanteId } = req.params; // Assuming you pass the ID as a route parameter
+    const { visitanteId } = req.params;
 
     try {
         const visitante = await prisma.visitante.delete({
@@ -79,11 +79,11 @@ export const deleteVisitanteById = async (req: Request, res: Response) => {
         });
 
         if (visitante) {
-            return res.json({ message: "Visitante deleted" });
+            return res.json({ message: 'Visitante deleted' });
         } else {
-            return res.status(404).json({ message: "Visitante not found" });
+            return res.status(404).json({ message: 'Visitante not found' });
         }
     } catch (error) {
-        return res.status(500).json({ message: "An error occurred while deleting Visitante" });
+        return res.status(500).json({ message: 'An error occurred while deleting Visitante' });
     }
 }

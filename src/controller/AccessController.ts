@@ -20,8 +20,7 @@ export const getALLAccesses = async (req: Request, res: Response) => {
 
 export const getAccessById = async(req: Request, res: Response) => {
   try {
-    const accessId = parseInt(req.params.id); // Supondo que o ID seja um número inteiro
-
+    const accessId = parseInt(req.params.id); 
     const secretarioData = await prisma.access.findUnique({
       where: {
         id: accessId,
@@ -45,16 +44,16 @@ export const patchAccess = async (req: Request, res: Response) => {
     try {
         const updatedAccess = await prisma.access.update({
             where: {
-                id: parseInt(accessId, 10), // Parse the ID to an integer
+                id: parseInt(accessId, 10),
             },
             data: {
                 name: req.body.name
             },
         });
 
-        return res.json({ message: "Updated successfully", updatedAccess });
+        return res.json({ message: 'Updated successfully', updatedAccess });
     } catch (error) {
-        return res.status(500).json({ message: "An error occurred while updating access" });
+        return res.status(500).json({ message: 'An error occurred while updating access' });
     }
 
 }
