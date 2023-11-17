@@ -1,9 +1,15 @@
-import express from "express"
+import express from "express";
+import cors from "cors"; // Import the cors middleware
+import { apiV1Router } from "./routes/router";
 
-import { apiV1Router } from "./routes/router"
+const app = express();
 
-const app = express()
-app.use(express.json())
-app.use(apiV1Router)
+// Enable CORS for all origins
+app.use(cors({
+    origin: 'http://localhost:4200'
+  }));
 
-app.listen(8080, () => console.log("Server started"))
+app.use(express.json());
+app.use(apiV1Router);
+
+app.listen(8080, () => console.log("Server started"));
